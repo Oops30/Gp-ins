@@ -1,0 +1,18 @@
+From Server
+Step 1: sudo apt update
+Step 2: sudo apt install mysql-server -y
+Step 3: sudo apt install apache2 -y
+Step 4: sudo apt install php libapache2-mod-php php-mysql -y
+Step 5: sudo systemctl restart apache2
+Step 6: sudo apt install phpmyadmin
+Step 7: sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+Step 8: sudo systemctl restart apache2
+http://localhost/phpmyadmin
+
+
+From client
+Step 9: sudo apt-get update && sudo apt-get install apache2 -y 
+Step10: sudo nano /etc/apache2/apache2.conf
+add this line
+Include /etc/phpmyadmin/apache.conf
+http://192.168.152.136/phpmyadmin ---change it to server ip 

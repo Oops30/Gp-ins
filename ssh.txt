@@ -1,0 +1,17 @@
+From Server
+Step 1: sudo apt-get update
+Step 2: sudo apt install openssh-server
+Step 3: sudo systemctl start ssh
+Step 4: sudo systemctl enable ssh
+Step 5: sudo nano /etc/ssh/sshd_config
+Ensure the following line is present and uncommented (remove # if necessary):
+Make sure port 22 in uncomment and
+PasswordAuthentication yes
+Step 6: sudo systemctl restart ssh
+step 7: whoami 
+example : sevrer
+To check username to do ssh
+
+From Client and Windows
+
+ssh server@19.168.15.136 --serverIP
