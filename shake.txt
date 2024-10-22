@@ -1,0 +1,49 @@
+Step 1: Import the asset
+Step 2: Drag the image to the hirearchy 
+Add component -
+Physcis 2D > Box colider 2D
+
+Step 3: Create Script with default name
+add this code 
+
+using UnityEngine;
+
+public class NewBehaviourScript : MonoBehaviour
+{
+    public Transform cameraTransform = default;
+    private Vector3 _orignalPosOfCam = default;
+    public float shakeFrequency = default;
+    void Start()
+    {
+        _orignalPosOfCam = cameraTransform.position;
+    }
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.S))
+        {
+            CameraShake();
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+
+        {
+            StopShake();
+        }
+    }
+    private void CameraShake()
+    {
+        cameraTransform.position = _orignalPosOfCam + Random.insideUnitSphere *
+        shakeFrequency;
+    }
+    private void StopShake()
+    {
+        cameraTransform.position = _orignalPosOfCam;
+    }
+}
+
+Step 4 : Add this script 
+
+When you add, you'll get two option 
+Camera Transform : Set it to MainCamera
+Shake shakeFrequency: Set it to 5
+
+Now play it and press S button for camera shake effect

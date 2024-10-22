@@ -1,0 +1,56 @@
+1. Create new project by selecting Universal 3D
+2. Go to Game Object and select Plane
+adjust the side as u need
+3. Again go to Game object and add 2 capsules on the plane
+place the capsules linearly 
+name 1 capsule as Enemy and 2nd capsule as Player
+4. Go to game object and add 2 spheres by attaching it to capsules so that it depicts the face of our character
+5. Select Enemy and add script in it
+#code
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Threading;
+using UnityEngine;
+
+public class EnemyTransform : MonoBehaviour
+{
+    public Transform player;
+    public float playerDistance;
+    public float rotationDamping;
+    public float moveSpeed;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        playerDistance = Vector3.Distance(player.position, transform.position);
+
+        if (playerDistance < 15f)
+        {
+            LookAtPlayer();
+        }
+        if (playerDistance > 12f)
+        {
+            Chase();
+        }
+    }
+
+    void LookAtPlayer()
+    {
+        Quaternion rotation = Quaternion.LookRotation(player.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationDamping);
+    }
+    void Chase()
+    {
+        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+    }
+}
+6. In  Enemy capsule Inspector select transform as Player
+7. Set rotation damping 10 and move speed 5
+8. Run the code
