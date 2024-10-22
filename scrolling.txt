@@ -1,0 +1,30 @@
+Step 1: Create new unity 2D
+Step 2: Import asset > Right click on project Assests > Import an image .
+Step 3: Select  the image > Inspector will open 
+make this changes :
+ Texture type : Sprite (2D and UI) 
+ Wrap mode : Repeat 
+Step 4: Drag and drop Image to hierarchy
+Step 5: Add scipt to image 
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Scrollable : MonoBehaviour
+{
+    public float speed = 0.5f;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Vector2 offeset = new Vector2(Time.time * speed, 0);
+        GetComponent<Renderer>().material.mainTextureOffset = offeset;
+
+    }
+}

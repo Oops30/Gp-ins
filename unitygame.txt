@@ -1,0 +1,165 @@
+
+### Complete Process to Create a Simple 2D Game in Unity
+
+#### **Step 1: Set Up Your Unity Project**
+
+1. **Create a New Project**:
+   - Open Unity Hub.
+   - Click on **New Project**.
+   - Choose the **2D template**, name your project (e.g., "Simple2DGame"), and set the location where you want to save it.
+
+2. **Import Assets**:
+   - Make sure you have your three images: **ball.png** (player), **rock.png** (enemy), and **ground.jpg** (ground).
+   - Import these images into Unity by dragging them into the **Assets** folder in the Project window.
+
+#### **Step 2: Set Up the Scene**
+
+1. **Create the Ground**:
+   - Right-click in the **Hierarchy** panel and select **2D Object > Sprite**.
+   - Rename it to **Ground**.
+   - In the **Inspector**, change the Sprite to **ground.jpg**.
+   - Adjust the **Scale** (e.g., set **X** to 5 and **Y** to 1) so that it covers the bottom of the screen.
+   - Set the **Position** to (0, -4, 0) (adjust the Y position based on your design).
+
+2. **Create the Player**:
+   - Right-click in the **Hierarchy** panel and select **2D Object > Sprite**.
+   - Rename it to **Player**.
+   - Change the Sprite to **ball.png**.
+   - Adjust the **Position** (e.g., set **Y** to -3) so that it sits above the ground.
+
+3. **Create the Enemy (Rock)**:
+   - Right-click in the **Hierarchy** panel and select **2D Object > Sprite**.
+   - Rename it to **Rock**.
+   - Change the Sprite to **rock.png**.
+   - Adjust the **Position** (e.g., set **Y** to -3 and **X** to 3) so that it appears on the right side of the player.
+
+#### **Step 3: Add Colliders and Rigidbody**
+
+1. **Add Colliders**:
+   - For **Ground**:
+     - Select **Ground** in the **Hierarchy**.
+     - In the **Inspector**, click on **Add Component** and add a **Box Collider 2D**.
+   - For **Player**:
+     - Select **Player**.
+     - Add a **Circle Collider 2D** component.
+   - For **Rock**:
+     - Select **Rock**.
+     - Add a **Box Collider 2D** component.
+
+2. **Add Rigidbody**:
+   - For **Player**:
+     - Select **Player**.
+     - Add a **Rigidbody2D** component and set **Gravity Scale** to 1 (this allows the player to fall).
+
+#### **Step 4: Create the Player Movement Script**
+
+1. **Create Script**:
+   - In the **Assets** folder, right-click and select **Create > C# Script**.
+   - Name it `PlayerMovement`.
+
+2. **Open the Script**:
+   - Double-click on `PlayerMovement` to open it in your preferred code editor.
+
+3. **Copy the Following Code**:
+
+```csharp
+using UnityEngine;
+using UnityEngine.SceneManagement; // For reloading the scene
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float moveSpeed = 5f;   // Speed of the player movement
+    public float jumpForce = 7f;   // Force applied when jumping
+    private Rigidbody2D rb;
+    private bool isGrounded;       // Is the player on the ground?
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();  // Get the Rigidbody2D component
+    }
+
+    void Update()
+    {
+        // Move left and right using arrow keys or A/D
+        float moveX = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
+
+        // Jump when pressing space and the player is on the ground
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            isGrounded = false;  // The player is no longer grounded when they jump
+        }
+    }
+
+    // Check if the player has landed on the ground
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+
+        // Check if the player hits an enemy
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // End the game by restarting the level or displaying Game Over
+            EndGame();
+        }
+    }
+
+    void EndGame()
+    {
+        // Restart the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+}
+```
+
+4. **Save and Return to Unity**.
+
+#### **Step 5: Attach the Script to the Player**
+
+1. **Select the Player**:
+   - Click on the **Player** object in the **Hierarchy**.
+   
+2. **Attach the Script**:
+   - Drag the `PlayerMovement` script onto the **Player** object in the **Inspector** panel.
+
+#### **Step 6: Tag the Rock as "Enemy"**
+
+1. **Select the Rock**:
+   - Click on the **Rock** object in the **Hierarchy**.
+   
+2. **Add Tag**:
+   - In the **Inspector**, find the **Tag** dropdown.
+   - Click on it and select **Add Tag**.
+   - Click the **+** button and add a new tag called **Enemy**.
+   - Assign the **Enemy** tag to the **Rock** by selecting it from the dropdown.
+
+#### **Step 7: Testing the Game**
+
+1. **Save Your Scene**:
+   - Go to **File > Save Scene**, name it (e.g., "MainScene").
+
+2. **Build Settings**:
+   - Go to **File > Build Settings** and make sure your current scene is listed in **Scenes in Build**.
+
+3. **Play the Game**:
+   - Click the **Play** button at the top of the Unity Editor.
+   - Test the game: move the player using the arrow keys or `A/D` keys and jump with the spacebar. If you touch the rock, the game should restart.
+
+#### **Step 8: Building the Game**
+
+1. **Build and Run**:
+   - If you want to test on your Android device, go to **File > Build Settings**.
+   - Select **Android** as your platform.
+   - Click **Build and Run** to create an APK and install it on your device.
+
+### Final Thoughts
+
+Congratulations! You’ve now created a simple 2D game where a player can move left and right, jump, and restart the game upon colliding with an enemy (rock). You can expand this foundation by adding more features, such as:
+- **Collectibles**: Items that the player can collect for points.
+- **Levels**: Different scenes to navigate through.
+- **Game Over UI**: A user interface to show when the game is over.
+

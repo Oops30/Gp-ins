@@ -1,0 +1,146 @@
+1. Set Up Unity and a New Project
+Open Unity Hub and create a New Project.
+Choose the 2D template.
+Name your project something like "Simple2DPlatformer".
+Choose a location to save it and hit Create.
+2. Setting Up the Game Scene
+2.1 Import Your Assets
+You have three images: ball.png, rock.png, and ground.jpg. Let’s import them into Unity.
+
+In the Assets panel, right-click and choose Create > Folder and name it Sprites (this keeps things organized).
+Inside the Sprites folder, drag and drop your images (ball.png, rock.png, and ground.jpg) into Unity.
+3. Creating the Ground (Platform)
+3.1 Add Ground to the Scene:
+In the Hierarchy (left panel), right-click and choose 2D Object > Sprite.
+Name the new object Ground.
+In the Inspector (right panel), click the small square next to the Sprite field to open the asset picker.
+Select your ground.jpg file to set it as the sprite for the Ground object.
+3.2 Adjust the Ground Size:
+Use the Scale tool (shortcut key: R) or go to the Inspector and adjust the Scale values to make the ground wide enough to cover the bottom of your screen.
+Position the ground at the bottom of the scene using the Move Tool (shortcut key: W).
+3.3 Add a Collider to the Ground:
+To make the ground solid so the player can land on it:
+
+With the Ground object selected, click Add Component in the Inspector.
+Search for BoxCollider2D and add it. This will allow the player to collide with the ground.
+
+Awesome! Let’s start building your game from scratch. We'll walk through each step of creating a simple 2D platformer using Unity, focusing on the core elements of the game (the ball, rock, and ground) and then gradually build it up from there.
+
+Step-by-Step Guide to Creating a Simple 2D Platformer in Unity
+1. Set Up Unity and a New Project
+Open Unity Hub and create a New Project.
+Choose the 2D template.
+Name your project something like "Simple2DPlatformer".
+Choose a location to save it and hit Create.
+2. Setting Up the Game Scene
+2.1 Import Your Assets
+You have three images: ball.png, rock.png, and ground.jpg. Let’s import them into Unity.
+
+In the Assets panel, right-click and choose Create > Folder and name it Sprites (this keeps things organized).
+Inside the Sprites folder, drag and drop your images (ball.png, rock.png, and ground.jpg) into Unity.
+3. Creating the Ground (Platform)
+3.1 Add Ground to the Scene:
+In the Hierarchy (left panel), right-click and choose 2D Object > Sprite.
+Name the new object Ground.
+In the Inspector (right panel), click the small square next to the Sprite field to open the asset picker.
+Select your ground.jpg file to set it as the sprite for the Ground object.
+3.2 Adjust the Ground Size:
+Use the Scale tool (shortcut key: R) or go to the Inspector and adjust the Scale values to make the ground wide enough to cover the bottom of your screen.
+Position the ground at the bottom of the scene using the Move Tool (shortcut key: W).
+3.3 Add a Collider to the Ground:
+To make the ground solid so the player can land on it:
+
+With the Ground object selected, click Add Component in the Inspector.
+Search for BoxCollider2D and add it. This will allow the player to collide with the ground.
+4. Creating the Player (Ball)
+4.1 Add the Player to the Scene:
+In the Hierarchy, right-click and choose 2D Object > Sprite.
+Name this object Player.
+In the Inspector, click the small square next to the Sprite field and choose your ball.png image to represent the player.
+4.2 Adjust Player Position:
+Use the Move Tool (W key) to position the ball above the ground, where you want the player to start.
+4.3 Add a Rigidbody2D to the Player:
+To give the player gravity and physics properties:
+
+With the Player object selected, click Add Component.
+Search for and add Rigidbody2D.
+This will allow the player to fall due to gravity and interact with physics objects like the ground.
+4.4 Add a Collider to the Player:
+To make the player interact with other objects like the ground:
+
+With the Player object selected, click Add Component.
+Search for and add a CircleCollider2D (since the ball is round).
+5. Creating an Obstacle (Rock)
+5.1 Add the Rock to the Scene:
+In the Hierarchy, right-click and choose 2D Object > Sprite.
+Name this object Rock.
+In the Inspector, click the small square next to the Sprite field and choose your rock.png file.
+5.2 Adjust the Rock Size and Position:
+Use the Move Tool to position the rock somewhere on the ground (where the player will have to jump over it).
+You can use the Scale Tool (R key) to adjust its size if needed.
+5.3 Add a Collider to the Rock:
+To make the rock solid:
+
+With the Rock object selected, click Add Component.
+Add a BoxCollider2D to give the rock collision.
+6. Scripting: Moving the Player
+Now let’s add movement to the player (ball). We will create a script to handle left/right movement and jumping.
+
+6.1 Create a Player Movement Script:
+In the Assets panel, right-click and choose Create > C# Script. Name it PlayerMovement.
+Double-click the script to open it in your code editor (Visual Studio or another).
+Code:
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float moveSpeed = 5f;   // Speed of the player movement
+    public float jumpForce = 7f;   // Force applied when jumping
+    private Rigidbody2D rb;
+    private bool isGrounded;       // Is the player on the ground?
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();  // Get the Rigidbody2D component
+    }
+
+    void Update()
+    {
+        // Move left and right using arrow keys or A/D
+        float moveX = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
+
+        // Jump when pressing space and the player is on the ground
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            isGrounded = false;  // The player is no longer grounded when they jump
+        }
+    }
+
+    // Check if the player has landed on the ground
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+}
+6.2 Attach the Script to the Player:
+In Unity, select the Player object.
+Drag the PlayerMovement script from the Assets panel onto the Player in the Inspector to attach the script.
+6.3 Tagging the Ground:
+To detect whether the player is on the ground:
+
+Select the Ground object.
+In the Inspector, under Tag, click and choose Add Tag.
+Create a new tag called Ground.
+Assign the Ground tag to the Ground object.
+
+7. Playtesting the Game
+Click the Play button at the top of the Unity editor to test your game.
+Use the arrow keys (A or D) to move the ball left and right.
+Press the spacebar to jump over the rock.
+If everything is working, you should see the ball moving and jumping onto the ground and over obstacles!
+
