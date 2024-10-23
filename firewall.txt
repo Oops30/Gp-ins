@@ -1,0 +1,29 @@
+Part 1: Blocking the HTTP and HTTPS (Port 80 and Port 443) using the Firewall
+1- We open ‘Windows Defender Firewall’
+2- Next we click on ‘Advanced settings’
+3- Next we click on ‘Inbound Rules’ > Then click on ‘New Rule’
+4- Select the radio button ‘Port’ and click ‘Next’ and enter the following
+5- add port 80,443 next
+6- Block the connection
+7- select all domain,public,private
+8- Give name as : HTTPblock
+9- The Inbound rule is added do same for outbound Rules’
+
+Part 2: Blocking the website www.android.com
+We open the browser and access the website, which is now accessible
+We find the IP addresses of the website using the following command
+Command: nslookup www.android.com
+We open the windows Firewall settings and apply the Inbound Rule
+1- Select custom
+2- All programs customize Insert IPv4 and IPv6
+3- Block the connection
+4- select all domain,public,private
+5- Give name as : HTTPblock
+6- The Inbound rule is added do same for outbound Rules’
+Now if we try to access the website www.android.com , it would be blocked
+
+
+
+
+
+
